@@ -1,6 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
-import BaseLayout from "../../../layouts/BaseLayout.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog", ({ data }) => !data.draft);
@@ -19,6 +19,10 @@ const formatter = new Intl.DateTimeFormat("ko-KR", {
   month: "long",
   day: "numeric"
 });
+
+const base = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
 ---
 
 <BaseLayout title={`${post.data.title} | Yeongil Blog`} description={post.data.description}>
@@ -33,5 +37,5 @@ const formatter = new Intl.DateTimeFormat("ko-KR", {
       <Content />
     </div>
   </article>
-  <a class="back-link" href="/">글 목록으로 돌아가기</a>
+  <a class="back-link" href={base}>글 목록으로 돌아가기</a>
 </BaseLayout>
