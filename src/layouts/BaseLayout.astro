@@ -1,0 +1,29 @@
+---
+import "../styles/global.css";
+
+const {
+  title = "Yeongil Blog",
+  description = "AI, product, design, and software notes."
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="site">
+      <header class="site-header">
+        <p class="site-title"><a href="/">Yeongil Blog</a></p>
+        <p class="site-description">AI, product, design, and software notes.</p>
+      </header>
+      <main class="site-main">
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>

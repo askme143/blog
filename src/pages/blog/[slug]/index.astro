@@ -1,0 +1,37 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const formatter = new Intl.DateTimeFormat("ko-KR", {
+  year: "numeric",
+  month: "long",
+  day: "numeric"
+});
+---
+
+<BaseLayout title={`${post.data.title} | Yeongil Blog`} description={post.data.description}>
+  <article>
+    <header class="post-header">
+      <h1 class="post-title">{post.data.title}</h1>
+      <time class="post-meta" datetime={post.data.pubDate.toISOString()}>
+        {formatter.format(post.data.pubDate)}
+      </time>
+    </header>
+    <div class="post-content">
+      <Content />
+    </div>
+  </article>
+  <a class="back-link" href="/">글 목록으로 돌아가기</a>
+</BaseLayout>
